@@ -5,7 +5,6 @@ import { useState } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-// import { Link } from "react-router-dom"
 function RegistrationForm(){
     const[name, setName] = useState("")
     const[email, setEmail] = useState("")
@@ -51,56 +50,53 @@ function RegistrationForm(){
                 console.log(item.email)
                 if(item.email===data.email){
                     flag = false
+                    alert("Email already exists")
                     break
                 }
             }
             if(flag===true){
                 console.log(data)
                 mutate(data)
+                alert("Registration successfull")
+                navigate("/")
             }
-            // info.filter((item)=>{
-            //     console.log(item)
-            // })
-            // info.filter((item:any)=>{
-            //     if(item.email===data.email){
-                    
-            //     }
-            // })
-            // const filtereddata = info.filter((item:any)=>{console.log(item.email); console.log(data.email); console.log(item.email===data.email)})
-            // console.log(filtereddata.every((i)=>console.log(i)))
-            // {filtereddata?console.log("true - ",data):console.log("false - ",data)}
-            // console.log(filtereddata)
-            // if(filtereddata){
-            //     console.log(data)
-            // }
-            // info.map((item:any)=>{
-            //     if(data!==item){
-            //         // console.log(item)
-            //         console.log(data)
-            //         setNewdata({...newdata, fullname:item.fullname, email:item.email, password:item.password, confirmPassword:item.confirmPassword})
-            //         console.log(newdata)
-            //         // mutate(data)
-            //     }    
-            // })
-            // console.log(newdata)
-            // mutate(data)
-            // navigate("/")
+           
         }
     }
     return(
-        <div>    
-        <form onSubmit={handleSubmit(handle)}>
-          <input type="text" placeholder="Enter username" {...register("fullname")} onChange={(e)=>setName(e.target.value)}></input>
-          {errors.fullname && <p>{errors.fullname.message}</p>}
-          <input type="email" placeholder="Enter email" {...register("email")} onChange={(e)=>setEmail(e.target.value)}></input>
-          {errors.email && <p>{errors.email.message}</p>}
-          <input type="password" placeholder="Enter password" {...register("password")} onChange={(e)=>setPassword(e.target.value)}></input>
-          {errors.password && <p>{errors.password.message}</p>}
-          <input type="password" placeholder="Confirm password" {...register("confirmPassword")} onChange={(e)=>setCnfPwd(e.target.value)}></input>
-          {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-          <button type="submit">submit</button>
-      </form>
+        // <div>
+        <div className=" min-h-screen  w-screen flex items-center justify-center bg-gray-100">
+         {/* <div className="flex flex-col items-center p-10 w-full max-w-md bg-white border-4 border-black/50 rounded-xl"></div> */}
+        <div className="border flex flex-col items-center min-h-[500px] max-w-md  bg-white border border-black-500">    
+            <div className="h-20 w-80 mt-9 mb-4 text-center ">
+            <h2 className="text-center m-2">Create Account</h2>
+            <h3 className="text-center m-2">Sign up to get started</h3>
         </div>
+        
+        <form onSubmit={handleSubmit(handle)}>
+          <div>
+            <label className="mb-1 text-left m-2 w-64">Full name</label><br></br>
+            <input className="mt-1 mb-2 ml-2 border border-black-50 w-75 rounded-md" type="text" placeholder="Enter username" {...register("fullname")} onChange={(e)=>setName(e.target.value)}></input>
+            {errors.fullname && <p className="text-red-400 ml-2 mb-1">{errors.fullname.message}</p>}
+          </div>
+           <div>
+            <label className="mb-2 text-left m-2 w-64">Email</label><br></br>
+            <input className="mt-1 mb-2 ml-2 border border-black-50 w-75 rounded-md" type="email" placeholder="Enter email" {...register("email")} onChange={(e)=>setEmail(e.target.value)}></input>
+            {errors.email && <p className="text-red-400 ml-2 mb-1">{errors.email.message}</p>}
+          </div> 
+          <div>
+            <label className="mb-2 text-left m-2 w-64">Password</label><br></br>
+          <input className="mt-1 mb-2 ml-2 border border-black-50 w-75 rounded-md" type="password" placeholder="Enter password" {...register("password")} onChange={(e)=>setPassword(e.target.value)}></input>
+          {errors.password && <p className="text-red-400 ml-2 mb-1">{errors.password.message}</p>}
+          </div>
+          <div>
+            <label className="mb-2 text-left m-2 w-64">Confirm Password</label><br></br>
+            <input className="mt-1 mb-2 ml-2 border border-black-50 w-75 rounded-md" type="password" placeholder="Confirm password" {...register("confirmPassword")} onChange={(e)=>setCnfPwd(e.target.value)}></input>
+            {errors.confirmPassword && <p className="text-red-400 ml-2 mb-1">{errors.confirmPassword.message}</p>}
+          </div>
+          <button className="h-10 bg-blue-200 mt-5 w-80 rounded-md"type="submit">submit</button>
+      </form>
+        </div></div>
     )
 }
 export default RegistrationForm

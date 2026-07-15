@@ -16,10 +16,10 @@ function App(){
   const router = createBrowserRouter(routes)
   return(
       <div>
-        <Home/>
-        {/* <QueryClientProvider client={queryClient}>
+        {/* <Home/> */}
+        <QueryClientProvider client={queryClient}>
           <RouterProvider router={router}></RouterProvider>
-        </QueryClientProvider>         */}
+        </QueryClientProvider>        
       </div>
   )
 }
