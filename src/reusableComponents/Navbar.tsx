@@ -1,17 +1,15 @@
 import { Link, Navigate, NavLink, useNavigate } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../components/hook"
-import { logout } from "../components/movieSlice"
+import { logout } from "../components/reduxToolkit/movieSlice"
 import "./Navbar.css"
+import { useAppDispatch, useAppSelector } from "../components/reduxToolkit/hook"
 function Navbar(){
     const navigate = useNavigate()
     const{isAuthenticated} = useAppSelector((state)=>state.login)
     const disp = useAppDispatch()
     const userlogout=()=>{
         disp(logout({isAuthenticated:isAuthenticated}))
-        if(isAuthenticated===false){
-            alert("User is not Authenticated")
-            navigate("/")
-        }
+        console.log(localStorage.getItem("isAuthenticated"))
+        navigate("/")
     }
     return(
         <div className="p-2 pt-0"><nav className="bg-white p-0 sm:px-8 py-4">

@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import { useAppSelector } from "./hook"
 import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "../reusableComponents/Navbar"
+import { useAppSelector } from "./reduxToolkit/hook"
 
 interface movie{
     createdAt:string,
@@ -17,12 +17,8 @@ function Home(){
     const navigate = useNavigate()  
     const[moviedata, setMovieData] = useState([])
     const{isAuthenticated, user} = useAppSelector((state)=>state.login)
-    // const disp = useAppDispatch()
     console.log(isAuthenticated, user)
-    if(isAuthenticated===false){
-        alert("User is not Authenticated")
-        navigate("/")
-    }
+    console.log(localStorage.getItem("isAuthenticated"))
     const apicall = async ()=>{
         const {data} = await axios.get("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies")
         setMovieData(data)

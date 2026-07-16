@@ -3,10 +3,14 @@ import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Navbar from "../reusableComponents/Navbar"
+// import { useAppDispatch } from "./hook"
+import { moviename } from "./reduxToolkit/movieSlice"
+import { useAppDispatch } from "./reduxToolkit/hook"
 
 function Allmovies(){
     const[movies, setMovies] = useState([])
     const navigate = useNavigate()
+    const disp = useAppDispatch()
     const apicall = async ()=>{
         const {data} = await axios.get("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies")
         setMovies(data)
@@ -31,7 +35,8 @@ function Allmovies(){
         setCurrentPage(prev=>prev+1)
         setStartIndex(prev=>prev+5)
     }
-    const booknow=()=>{
+    const booknow=(name:string)=>{
+        disp(moviename({name:name}))
         navigate("/theaterSelectionPage")
     }
     return(
@@ -48,7 +53,7 @@ function Allmovies(){
                         <div className="bg-gray-100 border border-gray-400 rounded-xl mb-5 h-20 w-100 p-4 flex flex-row gap-10 justify-space-between sm:flex flex-row">
                             <img src={item.avatar}></img>
                             <p className="font-serif">{item.name}</p>
-                            <button className="bg-blue-100 border border-blue-400 h-10 mt-0 ml-20 w-35 rounded-xl" onClick={booknow}>book now</button>
+                            <button className="bg-blue-100 border border-blue-400 h-10 mt-0 ml-20 w-35 rounded-xl" onClick={()=>booknow(item.name)}>book now</button>
                         </div>
                     )
                 })):(movies.slice(startIndex,startIndex+5).map((item:any)=>{
@@ -56,7 +61,7 @@ function Allmovies(){
                         <div className=" bg-white border border-black-50 mb-5 h-20 w-100 flex flex-row gap-10 justify-space-between">
                             <image href={item.image}>image</image>
                             <p className="font-serif">{item.name}</p>
-                            <button className="bg-blue-100 h-10 mt-5 ml-20 w-25" onClick={booknow}>book now</button>
+                            <button className="bg-blue-100 h-10 mt-5 ml-20 w-25" onClick={()=>booknow(item.name)}>book now</button>
                         </div>
                     )
                 }))

@@ -5,7 +5,10 @@ export const store = configureStore({
     reducer:{
         // authuser:AuthUserSliceReducer
         login:AuthUserSliceReducer,
-        logout:AuthUserSliceReducer
+        logout:AuthUserSliceReducer,
+        movietime:AuthUserSliceReducer,
+        moviename:AuthUserSliceReducer,
+        seats:AuthUserSliceReducer
     }
 })
 export type RootState = ReturnType<typeof store.getState>
