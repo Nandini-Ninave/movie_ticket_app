@@ -1,25 +1,25 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { yupValidation } from "../yupValidation"
+import { yupValidation } from "../formValidation/yupValidation"
 import { useState } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { SIGN_UP_TITLE } from "../../constant"
+import { reg_url } from "../url"
 function RegistrationForm() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [pwd, setCnfPwd] = useState("")
+    const [confirmPassword, setCnfPwd] = useState("")
     const [data, setData] = useState("")
     const [info, setInfo] = useState([])
     const navigate = useNavigate()
-    // const[newdata, setNewdata] = useState({})
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(yupValidation) })
 
 
     const apicall = async () => {
-        const { data } = await axios.get("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/registration")
+        const { data } = await axios.get(reg_url)
         setInfo(data)
         // console.log(info)
         return data
@@ -28,18 +28,17 @@ function RegistrationForm() {
         queryKey: ["person"],
         queryFn: apicall
     })
-    // console.log(info)
 
     const { mutate } = useMutation({
         mutationFn: async (data) => {
-            const response = await axios.post("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/registration", data)
+            const response = await axios.post(reg_url, data)
             console.log(response.data)
             return response.data
         }
     })
     const handle = (data: any) => {
         console.log(info)
-        if (password !== pwd) {
+        if (password !== confirmPassword) {
             alert("Confirm password and password are not same")
         }
         else {
@@ -105,10 +104,6 @@ function RegistrationForm() {
                 </div>
             </div>
         </section>
-
-
-
-
     )
 }
 export default RegistrationForm

@@ -1,1 +1,1 @@
-export const url = "https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/registration"
+export const reg_url = "https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/registration"

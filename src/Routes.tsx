@@ -1,11 +1,12 @@
 import type { RouteObject } from "react-router-dom";
 import Login from "./components/auth/Login";
-import Home from "./components/Home";
+import Home from "./components/home/Home";
 import RegistrationForm from "./components/auth/RegistrationForm";
-import Allmovies from "./components/Allmovies";
-import TheaterSelection from "./components/TheaterSelection";
-import SeatBooking from "./components/SeatBooking";
-import BookingConfirm from "./components/BookingConfirm";
+import Allmovies from "./components/allMovies/Allmovies";
+import TheaterSelection from "./components/bookings/TheaterSelection";
+import SeatBooking from "./components/bookings/SeatBooking";
+import BookingConfirm from "./components/bookings/BookingConfirm";
+
 export const routes: RouteObject[] = [
     {
         path: "/",

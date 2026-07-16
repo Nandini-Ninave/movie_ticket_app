@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { login } from "../reduxToolkit/movieSlice"
 import Input from "../../reusableComponents/Input"
-import { url } from "../url"
+import { reg_url } from "../url"
 import { useAppDispatch } from "../reduxToolkit/hook"
 
 
@@ -23,7 +23,7 @@ function Login() {
     const disp = useAppDispatch()
 
     const apicall = async () => {
-        const { data } = await axios.get(url)
+        const { data } = await axios.get(reg_url)
         setData(data)
         return data
     }

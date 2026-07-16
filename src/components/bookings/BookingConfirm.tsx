@@ -1,4 +1,5 @@
-import { useAppSelector } from "./reduxToolkit/hook"
+
+import { useAppSelector } from "../reduxToolkit/hook"
 
 function BookingConfirm(){
     const{selectedSeats,total} = useAppSelector((state)=>state.seats)
@@ -8,7 +9,7 @@ function BookingConfirm(){
     // const[seat, setSeat] = useState([])
     
     return(<div><p>Booking confirm</p>
-        {data.selectedSeats.map((seat)=>{
+        {data.selectedSeats.map((seat:any)=>{
             return(<p>seat: {seat}</p>)
         })}
         <p>total: {total}</p>

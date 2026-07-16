@@ -3,7 +3,7 @@ import RegistrationForm from "./components/auth/RegistrationForm"
 import { createBrowserRouter, RouterProvider} from "react-router-dom"
 import { routes } from "./Routes"
 import Login from "./components/auth/Login"
-import Home from "./components/Home"
+import Home from "./components/home/Home"
 // import { ErrorBoundary } from "react-error-boundary"
 
 // const error_Fallback = ({error}:any)=>{

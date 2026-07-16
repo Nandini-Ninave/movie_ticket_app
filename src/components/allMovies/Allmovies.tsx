@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Navbar from "../reusableComponents/Navbar"
-// import { useAppDispatch } from "./hook"
-import { moviename } from "./reduxToolkit/movieSlice"
-import { useAppDispatch } from "./reduxToolkit/hook"
+import { useAppDispatch } from "../reduxToolkit/hook"
+import { moviename } from "../reduxToolkit/movieSlice"
+import Navbar from "../../reusableComponents/Navbar"
 
 function Allmovies(){
     const[movies, setMovies] = useState([])
     const navigate = useNavigate()
-    const disp = useAppDispatch()
+    const dispatch_function = useAppDispatch()
+    const [startIndex, setStartIndex]= useState(0)
+    const [currentPage, setCurrentPage] = useState(0)
     const apicall = async ()=>{
         const {data} = await axios.get("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies")
         setMovies(data)
@@ -20,8 +21,7 @@ function Allmovies(){
         queryKey:["movies"],
         queryFn:apicall
     })
-    const [startIndex, setStartIndex]= useState(0)
-    const [currentPage, setCurrentPage] = useState(0)
+    
     let flag = true
     const previous=()=>{
         flag=false
@@ -36,7 +36,7 @@ function Allmovies(){
         setStartIndex(prev=>prev+5)
     }
     const booknow=(name:string)=>{
-        disp(moviename({name:name}))
+        dispatch_function(moviename({name:name}))
         navigate("/theaterSelectionPage")
     }
     return(
