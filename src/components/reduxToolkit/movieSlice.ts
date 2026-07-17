@@ -7,7 +7,10 @@ interface AuthUser{
     min:number,
     name:string,
     selectedSeats:number[],
-    total:number
+    total:number,
+    date:number,
+    month:string,
+    theaterName:string
 }
 const initialState : AuthUser = {
     isAuthenticated:false,
@@ -16,7 +19,10 @@ const initialState : AuthUser = {
     min:0,
     name:"",
     selectedSeats:[],
-    total:0
+    total:0,
+    date:1,
+    month:"",
+    theaterName:""
 }
 export const AuthUserSlice = createSlice({
     name: "authuser",
@@ -26,7 +32,7 @@ export const AuthUserSlice = createSlice({
             state.isAuthenticated = true
             state.user = action.payload.user
             localStorage.setItem("isAuthenticated", state.isAuthenticated)
-            localStorage.setItem("email", state.user)
+            localStorage.setItem("email", action.payload.user)
         },
         logout:(state,action)=>{
             state.isAuthenticated = false
@@ -37,14 +43,24 @@ export const AuthUserSlice = createSlice({
         movietime:(state,action)=>{
             state.hr=action.payload.hr
             state.min=action.payload.min
+            state.date=action.payload.date
+            state.month=action.payload.month
+            state.theaterName=action.payload.theaterName
+            localStorage.setItem("hour",action.payload.hr)
+            localStorage.setItem("min", action.payload.min)
+            localStorage.setItem("date", action.payload.date)
+            localStorage.setItem("month", action.payload.month)
         },
         moviename:(state,action)=>{
             state.name=action.payload.name
+            localStorage.setItem("movieName", action.payload.name)
         },
         seats:(state,action)=>{
-            // console.log(action.payload)
             state.selectedSeats=action.payload
             state.total=action.payload.total
+            localStorage.setItem("selectedSeats",JSON.stringify(action.payload))
+            localStorage.setItem("totalBill",action.payload.total)
+            
         }
     }
 })

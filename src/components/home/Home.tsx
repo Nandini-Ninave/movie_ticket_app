@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Navbar from "../../reusableComponents/Navbar";
+import { get_all_movies } from "../url";
 
 interface movie {
   createdAt: string;
@@ -15,18 +16,19 @@ function Home() {
   const navigate = useNavigate();
   const [moviedata, setMovieData] = useState([]);
   const isAuthenticatedUser = localStorage.getItem("isAuthenticated");
+ 
   useEffect(() => {
     if (!isAuthenticatedUser) {
       navigate("/");
     }
   }, [isAuthenticatedUser]);
+
   const apicall = async () => {
-    const { data } = await axios.get(
-      "https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies",
-    );
+    const { data } = await axios.get(get_all_movies);
     setMovieData(data);
     return data;
   };
+
   const { data } = useQuery({
     queryKey: ["movies"],
     queryFn: apicall,
@@ -35,22 +37,23 @@ function Home() {
   const fun = () => {
     navigate("/allmovies");
   };
+
   return (
-    <div className=" p-4 md:p-8 flex justify-center">
+    <div className="p-4 md:p-8 flex justify-center">
       <div className="flex flex-col items-center p-5 bg-white">
         <Navbar />
-        <div className=" grid grid-cols-1 gap-6 mt-8 ml-25 mt-25 p-7 sm:grid-cols-4 md:grid-cols-4  md:p-10">
+        <div className=" grid grid-cols-1 gap-6 mt-8 mt-25 p-7 sm:grid-cols-4 md:grid-cols-4  md:p-10">
           {moviedata.slice(0, 8).map((item: movie) => {
             return (
-              <div className="h-40 w-40  flex flex-col justify-between">
-                <div className="border border-black-10 h-20 w-20 md:h-32 md:w-32">
+              <div className="h-40 w-40 p-4 flex flex-col justify-between items-center bg-gray-200 gap-4">
+                <div className="border border-black-10 h-10 w-10 md:h-20 md:w-20">
                   <img src={item.avatar}></img>
                 </div>
-                <p className="mt-2 mb-4">{item.name}</p>
+                <p className="mb-4 font-medium">{item.name}</p>
               </div>
             );
           })}
-          <p className="w-185 text-end ml-85 mt-2">
+          <p className="w-80 text-end ml-100 mt-2">
             <button
               onClick={fun}
               className="text-blue-500 text-lg hover:text-blue-800"

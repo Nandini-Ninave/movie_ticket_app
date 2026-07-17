@@ -3,7 +3,6 @@ import AuthUserSliceReducer from "./movieSlice"
 
 export const store = configureStore({
     reducer:{
-        // authuser:AuthUserSliceReducer
         login:AuthUserSliceReducer,
         logout:AuthUserSliceReducer,
         movietime:AuthUserSliceReducer,

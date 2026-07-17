@@ -7,6 +7,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { SIGN_UP_TITLE } from "../../constant"
 import { reg_url } from "../url"
+
 function RegistrationForm() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -17,11 +18,9 @@ function RegistrationForm() {
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(yupValidation) })
 
-
     const apicall = async () => {
         const { data } = await axios.get(reg_url)
         setInfo(data)
-        // console.log(info)
         return data
     }
     const { data: person } = useQuery({
@@ -32,22 +31,18 @@ function RegistrationForm() {
     const { mutate } = useMutation({
         mutationFn: async (data) => {
             const response = await axios.post(reg_url, data)
-            console.log(response.data)
             return response.data
         }
     })
-    const handle = (data: any) => {
+    const handleRegistration = (data: any) => {
         console.log(info)
         if (password !== confirmPassword) {
             alert("Confirm password and password are not same")
         }
         else {
-            console.log("inside onsubmit")
             setData(data)
-            console.log(JSON.stringify(data))
             let flag = true
             for (let item of info) {
-                console.log(item.email)
                 if (item.email === data.email) {
                     flag = false
                     alert("Email already exists")
@@ -74,7 +69,7 @@ function RegistrationForm() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create an account
                         </h1>
-                        <form onSubmit={handleSubmit(handle)} className="space-y-4 md:space-y-6" action="#">
+                        <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4 md:space-y-6" action="#">
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your full name</label>
                                 <input type="fullname" id="fullname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="full name" {...register("fullname")} onChange={(e) => setName(e.target.value)} />

@@ -5,15 +5,17 @@ import { useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../reduxToolkit/hook"
 import { moviename } from "../reduxToolkit/movieSlice"
 import Navbar from "../../reusableComponents/Navbar"
+import { get_all_movies } from "../url"
 
 function Allmovies(){
     const[movies, setMovies] = useState([])
-    const navigate = useNavigate()
-    const dispatch_function = useAppDispatch()
     const [startIndex, setStartIndex]= useState(0)
     const [currentPage, setCurrentPage] = useState(0)
+    const navigate = useNavigate()
+    const dispatch_function = useAppDispatch()
+
     const apicall = async ()=>{
-        const {data} = await axios.get("https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies")
+        const {data} = await axios.get(get_all_movies)
         setMovies(data)
         return data
     }
@@ -24,14 +26,14 @@ function Allmovies(){
     
     let flag = true
     const previous=()=>{
-        flag=false
+        flag = false
         if(currentPage>0){
             setCurrentPage(prev=>prev-1)
             setStartIndex(prev=>prev-5)
         }
     }
     const next=()=>{
-        flag= true
+        flag =  true
         setCurrentPage(prev=>prev+1)
         setStartIndex(prev=>prev+5)
     }
@@ -43,10 +45,9 @@ function Allmovies(){
     <div className=" min-h-screen  w-screen flex items-center justify-center px-2">
         <div className="flex flex-col items-center p-4 min-h-[500px] w-full max-w-md ">
             <Navbar/>
-            <div className="w-100 mb-7 md:w-32">
+            <div className="w-100 mb-7 mt-20 md:w-32">
                 <h1 className="text-xl font-bold " >All movies</h1>
-            </div>
-            
+            </div>  
             {flag?
                 (movies.slice(startIndex,startIndex+5).map((item:any)=>{
                     return(
