@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+// import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useAppSelector } from "../reduxToolkit/hook"
 import { BOOKING_TITLE } from "../../constant"
@@ -9,7 +9,6 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { set_history } from "../url"
 import Navbar from "../../reusableComponents/Navbar"
-
 
 interface Historyinfo {
 	id: string,
@@ -74,15 +73,15 @@ function SeatBooking() {
 	}
 
 	return (		
-		<div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8 text-gray-800">
+		<div className="min-h-screen bg-zinc-800 p-4 sm:p-6 lg:p-8 text-gray-800">
 			<Navbar/>
-			<div className="bg-white rounded-2xl shadow-sm p-6 mt-15 border border-gray-100">
+			<div className="bg-zinc-700 rounded-2xl shadow-sm p-6 mt-15 border border-gray-700">
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
-					<h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{BOOKING_TITLE}</h1>
+					<h1 className="text-2xl sm:text-3xl font-bold text-white">{BOOKING_TITLE}</h1>
 					<p className="text-lg font-semibold text-blue-600 bg-blue-50 px-4 py-1.5 rounded-xl border border-blue-100">{hr}:{min}</p>
 				</div>
 				<div className="p-2 sm:p-4">
-					<p className="mb-4 text-xs font-bold text-gray-400 text-center border-b-2 border-gray-200 pb-2 max-w-md mx-auto">screen</p>
+					<p className="mb-4 text-xs font-bold text-white text-center border-b-2 border-gray-200 pb-2 max-w-md mx-auto">screen</p>
 					<div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 sm:gap-3 mb-10 max-w-3xl mx-auto justify-items-center">
 						{arr.map((seats, index: number) => {
 							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border  ${arr[index] ? 'bg-blue-400 border-blue-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
@@ -129,8 +128,6 @@ function SeatBooking() {
 			</div>
 
 			<button onClick={handleSeatSelection} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
-
-
 			<button onClick={() => setModalOpen(true)} data-modal-target="select-modal"
 				data-modal-toggle="select-modal" className="text-black bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" type="button">
 				Toggle modal

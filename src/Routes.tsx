@@ -5,7 +5,7 @@ import RegistrationForm from "./components/auth/RegistrationForm";
 import Allmovies from "./components/allMovies/Allmovies";
 import TheaterSelection from "./components/bookings/TheaterSelection";
 import SeatBooking from "./components/bookings/SeatBooking";
-import BookingConfirm from "./components/bookings/BookingConfirm";
+// import BookingConfirm from "./components/bookings/BookingConfirm";
 import TicketBookedHistory from "./components/history/TicketBookedHistory";
 export const routes: RouteObject[] = [
     {
@@ -32,10 +32,10 @@ export const routes: RouteObject[] = [
         path:"/seatbooking",
         element:<SeatBooking/>
     },
-    {
-        path:"/bookingConfirm",
-        element:<BookingConfirm/>
-    },
+    // {
+    //     path:"/bookingConfirm",
+    //     element:<BookingConfirm/>
+    // },
     {
         path:"/ticketBookedHistory",
         element:<TicketBookedHistory/>

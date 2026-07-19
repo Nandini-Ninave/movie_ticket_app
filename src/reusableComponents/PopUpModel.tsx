@@ -28,10 +28,12 @@ const PopUpModel = (props: { isOpen: boolean, onClose: any }) => {
     const data = localStorage.getItem("selectedSeats")
     const movieName = localStorage.getItem("movieName")
 
-    const [result, setResult] = useState<Bill[]>([])
+    const [result, setResult] = useState<Bill|null>(null)
     useEffect(() => {
-        setResult(JSON.parse(data))
-    }, [data])
+        if (data) {
+            setResult(JSON.parse(data));
+        }
+    }, [data]);
 
     return (
         <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -44,7 +46,7 @@ const PopUpModel = (props: { isOpen: boolean, onClose: any }) => {
                     <div className="border border-gray-300 rounded-xl h-60 p-5 bg-gray-100 hover:bg-gray-200 hover:text-black">
                         <div className="flex flex-wrap gap-1.5 mb-4">
                             <p className="font-medium">Seat: </p>
-                            {result.selectedSeats?.map((seat: Bill) => {
+                            {result?.selectedSeats?.map((seat) => {
                                 return (<p className="font-medium text-blue-400">{seat}</p>)
                             })}
                         </div>

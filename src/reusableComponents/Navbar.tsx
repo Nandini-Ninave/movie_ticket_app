@@ -12,10 +12,10 @@ function Navbar() {
         navigate("/")
     }
     return (
-        <nav className="bg-gray-100 text-blue fixed w-full z-20 top-0 start-0">
+        <nav className="bg-gray-100 text-blue w-full top-0">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <span className="self-center text-xl text-heading font-semibold whitespace-nowrap">Movies</span>
+                <a className="flex items-center">
+                    <span className="self-center text-xl text-heading font-semibold">Movies</span>
                 </a>
                 <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button type="button" onClick={userlogout} className="text-black bg-brand hover:bg-brand-strong box-border border border-gray-400 focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-xl text-sm px-3 py-2 focus:outline-none">logout</button>
@@ -32,9 +32,9 @@ function Navbar() {
                         <li>
                             <a href="/allmovies" className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Movies</a>
                         </li>
-                        <li>
+                        {/* <li>
                             <a className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Services</a>
-                        </li>
+                        </li> */}
                         <li>
                             <a  href="/ticketBookedHistory" className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">History</a>
                         </li>
