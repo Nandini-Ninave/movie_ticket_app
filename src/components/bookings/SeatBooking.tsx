@@ -127,11 +127,11 @@ function SeatBooking() {
 				</div>
 			</div>
 
-			<button onClick={handleSeatSelection} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
-			<button onClick={() => setModalOpen(true)} data-modal-target="select-modal"
+			<button onClick={()=>{handleSeatSelection();setModalOpen(true)}} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
+			{/* <button onClick={() => setModalOpen(true)} data-modal-target="select-modal"
 				data-modal-toggle="select-modal" className="text-black bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" type="button">
 				Toggle modal
-			</button>
+			</button> */}
 			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
 		</div>
 	)
