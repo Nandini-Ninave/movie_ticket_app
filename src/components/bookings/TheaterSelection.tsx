@@ -12,17 +12,26 @@ function TheaterSelection(){
     const[theater, setTheater] = useState([{name:"PVR Cinema", location:"City mall"}, {name:"Inox Cinema", location:"City mall"}, {name:"abc Cinema", location:"City mall"}, {name:"pvr Cinema", location:"City mall"}])
     const{name} = useAppSelector((state)=>state.moviename)
     const time = new Date(Date.now())
-    const [hour,sethour] = useState(time.getHours())
-    const [min, setMin] = useState(time.getMinutes())
+    // const [hour,sethour] = useState(time.getHours())
+    // const [min, setMin] = useState(time.getMinutes())
+    const hour:number = 12
+    const min:number = 0
+    console.log(time.toLocaleTimeString().slice(0,2))
+    const hourNow = time.toLocaleTimeString().slice(0,2)
+    console.log(typeof hour)
+    console.log(typeof hourNow)
+    // console.log(hour)
+
     const navigate = useNavigate()
     const disp = useAppDispatch()
     
     const email = localStorage.getItem("email")
-    if(hour>24){
-        sethour(prev=>prev-24)
-    }
+    // if(hour>24){
+    //     sethour(prev=>prev-24)
+    // }
 
     const handleclick=(hour:number,min:number, theater:string, index:number)=>{
+        if(hour<hourNow) return
         disp(movietime({hr:hour, min:min, date:time.getDate(), month:time.getMonth(), theaterName:theater}))
         navigate("/seatbooking")
     }   
@@ -31,7 +40,7 @@ function TheaterSelection(){
             <Navbar/>
         <div className="p-6">
             <h1 className="mb-5 text-xl font-bold text-white ml-1">Select Theater & Show Time</h1>
-            <p>{name}</p>
+            <p className="text-white">{name}</p>
             {theater.map((item,index)=>{
                 return(
                 <div className="border-4 border-black-900 flex flex-row gap-6 mb-5 p-3 rounded-xl">

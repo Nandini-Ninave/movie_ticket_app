@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 // import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useAppSelector } from "../reduxToolkit/hook"
@@ -12,7 +12,7 @@ import Navbar from "../../reusableComponents/Navbar"
 
 interface Historyinfo {
 	id: string,
-	email:string,
+	email: string,
 	movieName: string,
 	date: number,
 	time: number,
@@ -21,7 +21,16 @@ interface Historyinfo {
 	theaterName: string
 }
 
+interface Booked {
+	bookedtheaterName: string,
+	time: number,
+	totalSeats: [],
+	bookedSeats: number[]
+}
+
+
 function SeatBooking() {
+	const [booked, setBooked] = useState<Booked[]>([])
 	const [isModalOpen, setModalOpen] = useState(false)
 	const [arr, setArr] = useState(Array(60).fill(false))
 	const [silver, setSilver] = useState<number[]>([])
@@ -34,13 +43,41 @@ function SeatBooking() {
 	const total = (((silver.length) * 150) + ((gold.length) * 250) + (premium.length) * 350)
 	const disp = useDispatch()
 	const time = new Date(Date.now())
-	const { hr, min, theaterName } = useAppSelector((state) => state.movietime)
-	
+	// const selectedSeatsLocal = localStorage.getItem("selectedSeats")
+	// console.log("redux - ",selectedSeatsLocal)
+	const theaterNameLocal = localStorage.getItem("theaterName")
+	const{selectedSeats} = useAppSelector((state)=>state.seats)
+	console.log("redux - ",selectedSeats)
+	useEffect(() => {
+		setBooked({
+			...booked, bookedtheaterName: theaterNameLocal, time: localStorage.getItem("hour"),
+			totalSeats: arr,
+			bookedSeats: selected
+		})
+		disp(seats({ selectedSeats: selected}))
+		if((localStorage.getItem("newBookedSeat"))==null){
+		for(let seat of selected){
+			if(!selected.includes(seat)){
+				(localStorage.getItem('newBookedSeat'))
+				localStorage.setItem('newBookedSeat', JSON.stringify(seat));
+			}
+		}	
+		// localStorage.setItem("newBookedSeat",JSON.stringify(selected))
+	}
+	for(let seat of selected){
+		if(!selected.includes(seat)){
+			(localStorage.getItem('newBookedSeat'))
+  			localStorage.setItem('newBookedSeat', JSON.stringify(seat));
+		}
+	}	
+	}, [selected])
+	console.log(booked)
+		
 
+	const { hr, min, theaterName } = useAppSelector((state) => state.movietime)
 	const mutation = useMutation({
 		mutationFn: async (newdata: Historyinfo[]) => {
 			const response = await axios.post(set_history, newdata)
-			// console.log(response)
 			return response
 		}
 	})
@@ -61,20 +98,22 @@ function SeatBooking() {
 		const newArr = [...arr]
 		newArr[index] = true
 		setArr(newArr)
+		console.log(newArr)
 		setSelected([...selected, index])
 	}
 
 	const handleSeatSelection = () => {
-		disp(seats({ selectedSeats: selected, total: total }))
-		const copiedData = { ...historyInfo, email: email, movieName: movieName, theaterName: theaterName, date: time.toLocaleDateString(), time:hr, seats: selected, total: total }
+		console.log("inside")
+		disp(seats({ selectedSeats: selected, total: total, theaterName: theaterNameLocal, time: hr }))
+		const copiedData = { ...historyInfo, email: email, movieName: movieName, theaterName: theaterName, date: time.toLocaleDateString(), time: hr, seats: selected, total: total }
 		console.log(copiedData)
 		setInfo(copiedData)
 		mutation.mutate(copiedData)
 	}
-
-	return (		
+	// console.log(historyInfo)
+	return (
 		<div className="min-h-screen bg-zinc-800 p-4 sm:p-6 lg:p-8 text-gray-800">
-			<Navbar/>
+			<Navbar />
 			<div className="bg-zinc-700 rounded-2xl shadow-sm p-6 mt-15 border border-gray-700">
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
 					<h1 className="text-2xl sm:text-3xl font-bold text-white">{BOOKING_TITLE}</h1>
@@ -83,8 +122,14 @@ function SeatBooking() {
 				<div className="p-2 sm:p-4">
 					<p className="mb-4 text-xs font-bold text-white text-center border-b-2 border-gray-200 pb-2 max-w-md mx-auto">screen</p>
 					<div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 sm:gap-3 mb-10 max-w-3xl mx-auto justify-items-center">
-						{arr.map((seats, index: number) => {
-							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border  ${arr[index] ? 'bg-blue-400 border-blue-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
+						{/* {arr?.map((seats, index: number) => {
+							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${arr[index] ? 'bg-blue-400 border-blue-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
+							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${selectedSeats?.includes(index)? 'bg-black-100' : "bg-green-100"}`} key={index}>i</button>)
+						})}
+
+ */}
+						{booked.totalSeats?.map((item, index) => {
+							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${selectedSeats?.selectedSeats?.includes(index) ? 'bg-gray-400 border-gray-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
 						})}
 					</div>
 
@@ -127,11 +172,8 @@ function SeatBooking() {
 				</div>
 			</div>
 
-			<button onClick={()=>{handleSeatSelection();setModalOpen(true)}} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
-			{/* <button onClick={() => setModalOpen(true)} data-modal-target="select-modal"
-				data-modal-toggle="select-modal" className="text-black bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" type="button">
-				Toggle modal
-			</button> */}
+			<button onClick={() => { handleSeatSelection(); setModalOpen(true) }} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
+			{/* <button onClick={()=>handleSeatSelection()} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button> */}
 			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
 		</div>
 	)

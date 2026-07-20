@@ -10,7 +10,8 @@ interface AuthUser{
     total:number,
     date:number,
     month:string,
-    theaterName:string
+    theaterName:string,
+    booked:{theaterName:string, time:number, bookedSeats:[]}
 }
 const initialState : AuthUser = {
     isAuthenticated:false,
@@ -22,7 +23,8 @@ const initialState : AuthUser = {
     total:0,
     date:1,
     month:"",
-    theaterName:""
+    theaterName:"",
+    booked:{theaterName:"", time:0, bookedSeats:[]}
 }
 export const AuthUserSlice = createSlice({
     name: "authuser",
@@ -50,6 +52,7 @@ export const AuthUserSlice = createSlice({
             localStorage.setItem("min", action.payload.min)
             localStorage.setItem("date", action.payload.date)
             localStorage.setItem("month", action.payload.month)
+            localStorage.setItem("theaterName", action.payload.theaterName)
         },
         moviename:(state,action)=>{
             state.name=action.payload.name
@@ -57,11 +60,37 @@ export const AuthUserSlice = createSlice({
         },
         seats:(state,action)=>{
             state.selectedSeats=action.payload
+            console.log(action.payload.selectedSeats)
+            state.selectedSeats=[...action.payload.selectedSeats]
             state.total=action.payload.total
-            localStorage.setItem("selectedSeats",JSON.stringify(action.payload))
-            localStorage.setItem("totalBill",action.payload.total)
+            state.theaterName = action.payload.theaterName
+            // console.log(state.selectedSeats)
+            const item = JSON.parse(localStorage.getItem("selectedSeats"))
+            console.log(item)
+            console.log(item?.theaterName)
+            console.log(item?.time)
+            console.log(localStorage.getItem("theaterName"))
+            console.log(localStorage.getItem("hour"))
+            if(item?.theaterName == localStorage.getItem("theaterName") && item?.time == localStorage.getItem("hour")){
+                console.log("matched")
+                console.log(item?.selectedSeats)
+                for(let i of item?.selectedSeats){
+                    // const updatedArr = item?.selectedSeats.push(i)
+                    localStorage.setItem("selectedSeats", i)
+                }
+            }
+            // localStorage.setItem("selectedSeats",JSON.stringify(action.payload))
+
+                // if((localStorage.getItem("selectedSeats"))!=null){
+		    //    (localStorage.getItem('selectedSeats'))
+            //     localStorage.setItem('selectedSeats', JSON.stringify(action.payload));
+            // }	
+	        }
+        //     if(!selectedSeats.includes(action.payload)){
+                
+        //     localStorage.setItem("totalBill",action.payload.total)
             
-        }
+        // }
     }
 })
 export const {login, logout, movietime,moviename, seats} = AuthUserSlice.actions
