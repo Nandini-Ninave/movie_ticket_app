@@ -14,7 +14,7 @@ function TheaterSelection(){
     const time = new Date(Date.now())
     // const [hour,sethour] = useState(time.getHours())
     // const [min, setMin] = useState(time.getMinutes())
-    const hour:number = 12
+    const hour:number = 10
     const min:number = 0
     console.log(time.toLocaleTimeString().slice(0,2))
     const hourNow = time.toLocaleTimeString().slice(0,2)

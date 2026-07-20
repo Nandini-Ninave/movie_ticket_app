@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-// import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+// {Array.isArray(item.seats) ? item.seats.map((seat) => seat + 1).join(", ") : item.seats}
 import { useAppSelector } from "../reduxToolkit/hook"
 import { BOOKING_TITLE } from "../../constant"
 import { seats } from "../reduxToolkit/movieSlice"
@@ -9,6 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { set_history } from "../url"
 import Navbar from "../../reusableComponents/Navbar"
+import { useDispatch } from "react-redux"
 
 interface Historyinfo {
 	id: string,
@@ -28,7 +28,6 @@ interface Booked {
 	bookedSeats: number[]
 }
 
-
 function SeatBooking() {
 	const [booked, setBooked] = useState<Booked[]>([])
 	const [isModalOpen, setModalOpen] = useState(false)
@@ -43,10 +42,11 @@ function SeatBooking() {
 	const total = (((silver.length) * 150) + ((gold.length) * 250) + (premium.length) * 350)
 	const disp = useDispatch()
 	const time = new Date(Date.now())
-	// const selectedSeatsLocal = localStorage.getItem("selectedSeats")
-	// console.log("redux - ",selectedSeatsLocal)
 	const theaterNameLocal = localStorage.getItem("theaterName")
 	const{selectedSeats} = useAppSelector((state)=>state.seats)
+	const { hr, min, theaterName } = useAppSelector((state) => state.movietime)
+	const bookedTheater = useAppSelector((state) => state.seats.booked)
+	const bookedSeats = bookedTheater.find((theater) => theater.theaterName === theaterNameLocal && theater.time === hr)?.selectedSeats || [];
 	console.log("redux - ",selectedSeats)
 	useEffect(() => {
 		setBooked({
@@ -54,27 +54,10 @@ function SeatBooking() {
 			totalSeats: arr,
 			bookedSeats: selected
 		})
-		disp(seats({ selectedSeats: selected}))
-		if((localStorage.getItem("newBookedSeat"))==null){
-		for(let seat of selected){
-			if(!selected.includes(seat)){
-				(localStorage.getItem('newBookedSeat'))
-				localStorage.setItem('newBookedSeat', JSON.stringify(seat));
-			}
-		}	
-		// localStorage.setItem("newBookedSeat",JSON.stringify(selected))
-	}
-	for(let seat of selected){
-		if(!selected.includes(seat)){
-			(localStorage.getItem('newBookedSeat'))
-  			localStorage.setItem('newBookedSeat', JSON.stringify(seat));
-		}
-	}	
+		// disp(seats({ selectedSeats: selected}))
 	}, [selected])
 	console.log(booked)
 		
-
-	const { hr, min, theaterName } = useAppSelector((state) => state.movietime)
 	const mutation = useMutation({
 		mutationFn: async (newdata: Historyinfo[]) => {
 			const response = await axios.post(set_history, newdata)
@@ -83,8 +66,7 @@ function SeatBooking() {
 	})
 
 	const selectedSeat = (index: number) => {
-		if (silver.includes(index) || gold.includes(index) || premium.includes(index)) return
-
+		if (silver.includes(index) || gold.includes(index) || premium.includes(index) || bookedSeats.includes(index)) return
 		if (index <= 23) {
 			setSilver([...silver, index])
 		}
@@ -106,11 +88,10 @@ function SeatBooking() {
 		console.log("inside")
 		disp(seats({ selectedSeats: selected, total: total, theaterName: theaterNameLocal, time: hr }))
 		const copiedData = { ...historyInfo, email: email, movieName: movieName, theaterName: theaterName, date: time.toLocaleDateString(), time: hr, seats: selected, total: total }
-		console.log(copiedData)
+		console.log("copied data - ",copiedData)
 		setInfo(copiedData)
 		mutation.mutate(copiedData)
 	}
-	// console.log(historyInfo)
 	return (
 		<div className="min-h-screen bg-zinc-800 p-4 sm:p-6 lg:p-8 text-gray-800">
 			<Navbar />
@@ -122,15 +103,17 @@ function SeatBooking() {
 				<div className="p-2 sm:p-4">
 					<p className="mb-4 text-xs font-bold text-white text-center border-b-2 border-gray-200 pb-2 max-w-md mx-auto">screen</p>
 					<div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 sm:gap-3 mb-10 max-w-3xl mx-auto justify-items-center">
-						{/* {arr?.map((seats, index: number) => {
-							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${arr[index] ? 'bg-blue-400 border-blue-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
-							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${selectedSeats?.includes(index)? 'bg-black-100' : "bg-green-100"}`} key={index}>i</button>)
-						})}
+							{Array.from({ length: 60 }).map((item, index) => {
+								const isBooked = bookedSeats.includes(index);
+								const isSelected = selected.includes(index);
+								return (
+									<button key={index}	disabled={isBooked} onClick={() => selectedSeat(index)}
+										className={`aspect-square w-full rounded-lg text-sm border ${isBooked ? "bg-gray-400 border-gray-700 text-white cursor-not-allowed" : isSelected ? "bg-blue-400 border-blue-700 text-white" : "bg-green-400 border-green-700 text-white hover:bg-green-600"}`}>
+										{index + 1}
+									</button>
+								);
+							})}
 
- */}
-						{booked.totalSeats?.map((item, index) => {
-							return (<button onClick={() => selectedSeat(index)} className={`aspect-square w-full rounded-lg text-sm border    ${selectedSeats?.selectedSeats?.includes(index) ? 'bg-gray-400 border-gray-700 text-white shadow-blue-100' : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"}`} key={index}>i</button>)
-						})}
 					</div>
 
 					<div className="border border-gray-200 flex flex-col md:flex-row gap-6 w-full max-w-2xl p-6 mx-auto rounded-xl bg-gray-50">
@@ -173,8 +156,8 @@ function SeatBooking() {
 			</div>
 
 			<button onClick={() => { handleSeatSelection(); setModalOpen(true) }} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
-			{/* <button onClick={()=>handleSeatSelection()} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button> */}
-			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} selectedSeats={selected} total={total}/>
+			{/* <PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} /> */}
 		</div>
 	)
 }

@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+interface BookedSeat {
+  theaterName: string;
+  time: number;
+  selectedSeats: number[];
+}
+
 interface AuthUser{
     isAuthenticated:boolean,
     user:null,
@@ -11,7 +17,7 @@ interface AuthUser{
     date:number,
     month:string,
     theaterName:string,
-    booked:{theaterName:string, time:number, bookedSeats:[]}
+    booked: BookedSeat[];
 }
 const initialState : AuthUser = {
     isAuthenticated:false,
@@ -24,7 +30,7 @@ const initialState : AuthUser = {
     date:1,
     month:"",
     theaterName:"",
-    booked:{theaterName:"", time:0, bookedSeats:[]}
+    booked: JSON.parse(localStorage.getItem("bookedShows") || "[]"),
 }
 export const AuthUserSlice = createSlice({
     name: "authuser",
@@ -59,38 +65,15 @@ export const AuthUserSlice = createSlice({
             localStorage.setItem("movieName", action.payload.name)
         },
         seats:(state,action)=>{
-            state.selectedSeats=action.payload
-            console.log(action.payload.selectedSeats)
-            state.selectedSeats=[...action.payload.selectedSeats]
-            state.total=action.payload.total
-            state.theaterName = action.payload.theaterName
-            // console.log(state.selectedSeats)
-            const item = JSON.parse(localStorage.getItem("selectedSeats"))
-            console.log(item)
-            console.log(item?.theaterName)
-            console.log(item?.time)
-            console.log(localStorage.getItem("theaterName"))
-            console.log(localStorage.getItem("hour"))
-            if(item?.theaterName == localStorage.getItem("theaterName") && item?.time == localStorage.getItem("hour")){
-                console.log("matched")
-                console.log(item?.selectedSeats)
-                for(let i of item?.selectedSeats){
-                    // const updatedArr = item?.selectedSeats.push(i)
-                    localStorage.setItem("selectedSeats", i)
-                }
+            const { theaterName, time, selectedSeats } = action.payload;
+            const theater = state.booked.find((show) => show.theaterName === theaterName && show.time === time)
+            if (theater) {
+                theater.selectedSeats = [...new Set([...theater.selectedSeats, ...selectedSeats])]
+            } else {
+                state.booked.push({theaterName, time, selectedSeats})
             }
-            // localStorage.setItem("selectedSeats",JSON.stringify(action.payload))
-
-                // if((localStorage.getItem("selectedSeats"))!=null){
-		    //    (localStorage.getItem('selectedSeats'))
-            //     localStorage.setItem('selectedSeats', JSON.stringify(action.payload));
-            // }	
-	        }
-        //     if(!selectedSeats.includes(action.payload)){
-                
-        //     localStorage.setItem("totalBill",action.payload.total)
-            
-        // }
+            localStorage.setItem("bookedShows", JSON.stringify(state.booked))
+        }
     }
 })
 export const {login, logout, movietime,moviename, seats} = AuthUserSlice.actions

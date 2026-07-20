@@ -20,6 +20,7 @@ interface BookingHistory {
 const TicketBookedHistory = () => {
     const [history, setHistory] = useState<BookingHistory[]>([]);
     const [filteredData, setFilteredData] = useState<BookingHistory[]>([]);
+    console.log(filteredData)
     const apicall = async (): Promise<BookingHistory[]> => {
     const { data } = await axios.get<BookingHistory[]>(get_history);
         console.log(data);
@@ -35,6 +36,7 @@ const TicketBookedHistory = () => {
         const email = localStorage.getItem("email");
         const filtered = history.filter((item) => item.email === email);
         setFilteredData(filtered);
+        
     }, [history]);
 
     return (
@@ -73,8 +75,7 @@ const TicketBookedHistory = () => {
                         <div className="bg-zinc-800 rounded-xl p-4">
                             <p className="text-sm text-gray-400">Seats</p>
                             <p className="text-white font-semibold mt-1">
-                            {item.seats.join(", ")}
-                            </p>
+{item.seats.map((seat) => seat + 1).join(", ")}                            </p>
                         </div>
                         </div>
                     </div>
