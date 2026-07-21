@@ -12,7 +12,11 @@ interface BookingHistory {
   theaterName: string;
   date: string;
   time: number;
-  seats: number[];
+  seats: {
+    selectedSeats: number[];
+    total: number;
+    theaterName: string;
+  };
   total: number;
   email: string;
 }
@@ -22,11 +26,31 @@ const TicketBookedHistory = () => {
     const [filteredData, setFilteredData] = useState<BookingHistory[]>([]);
     console.log(filteredData)
     const apicall = async (): Promise<BookingHistory[]> => {
-    const { data } = await axios.get<BookingHistory[]>(get_history);
-        console.log(data);
-        setHistory(data);
-        return data;
+    const { data } = await axios.get<any[]>(get_history);
+  
+  // Safely parse the stringified JSON from the backend
+  const parsedData = data.map((item) => {
+    let parsedSeats = item.seats;
+    
+    if (typeof item.seats === "string") {
+      try {
+        parsedSeats = JSON.parse(item.seats);
+      } catch (e) {
+        console.error("Failed to parse seats JSON string:", e);
+        parsedSeats = { selectedSeats: [], total: 0, theaterName: "" };
+      }
+    }
+    
+    return {
+      ...item,
+      seats: parsedSeats
     };
+  });
+
+  console.log("Parsed Data:", parsedData); // Check your console to see the clean structure
+  setHistory(parsedData);
+  return parsedData;
+}
     const { data: registration } = useQuery({
         queryKey: ["history"],
         queryFn: apicall,
@@ -38,7 +62,7 @@ const TicketBookedHistory = () => {
         setFilteredData(filtered);
         
     }, [history]);
-
+    console.log(filteredData)
     return (
         <div className="h-full w-full bg-zinc-800">
         <div className="min-h-screen bg-black/60">
@@ -75,7 +99,8 @@ const TicketBookedHistory = () => {
                         <div className="bg-zinc-800 rounded-xl p-4">
                             <p className="text-sm text-gray-400">Seats</p>
                             <p className="text-white font-semibold mt-1">
-{item.seats.map((seat) => seat + 1).join(", ")}                            </p>
+                            {item.seats?.selectedSeats?.join(", ") || "No seats"}
+                            </p>
                         </div>
                         </div>
                     </div>
