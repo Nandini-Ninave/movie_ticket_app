@@ -2,3 +2,5 @@ export const reg_url = "https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/re
 export const get_all_movies = "https://6a55cf8ce49d9eb2cc5613be.mockapi.io/api/movie/movies"
 export const set_history = "https://6a59e8e0ad8332e75f01c886.mockapi.io/ticketBookingHistory"
 export const get_history = "https://6a59e8e0ad8332e75f01c886.mockapi.io/ticketBookingHistory"
+export const set_theater = "https://6a59e8e0ad8332e75f01c886.mockapi.io/theaters"
+export const get_theater = "https://6a59e8e0ad8332e75f01c886.mockapi.io/theaters"

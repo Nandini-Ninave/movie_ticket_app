@@ -7,6 +7,7 @@ import TheaterSelection from "./components/bookings/TheaterSelection";
 import SeatBooking from "./components/bookings/SeatBooking";
 // import BookingConfirm from "./components/bookings/BookingConfirm";
 import TicketBookedHistory from "./components/history/TicketBookedHistory";
+// import Addtheater from "./components/addtheater/Addtheater";
 export const routes: RouteObject[] = [
     {
         path: "/",
@@ -40,4 +41,8 @@ export const routes: RouteObject[] = [
         path:"/ticketBookedHistory",
         element:<TicketBookedHistory/>
     },
+    //  {
+    //     path:"/addTheater",
+    //     element:<Addtheater/>
+    // },
 ]

@@ -46,7 +46,7 @@ function SeatBooking() {
 	const { hr, min, theaterName } = useAppSelector((state) => state.movietime)
 	const bookedTheater = useAppSelector((state) => state.seats.booked)
 	const bookedSeats = bookedTheater.find((theater) => theater.theaterName === theaterNameLocal && theater.time === hr)?.selectedSeats || [];
-	console.log("redux - ",selectedSeats)
+	// console.log("redux - ",selectedSeats)
 	useEffect(() => {
 		setBooked({
 			...booked, bookedtheaterName: theaterNameLocal, time: localStorage.getItem("hour"),
@@ -54,7 +54,7 @@ function SeatBooking() {
 			bookedSeats: selected
 		})
 	}, [selected])
-	console.log(booked)
+	// console.log(booked)
 		
 	const mutation = useMutation({
 		mutationFn: async (newdata: Historyinfo[]) => {
@@ -64,29 +64,47 @@ function SeatBooking() {
 	})
 
 	const selectedSeat = (index: number) => {
-		if (silver.includes(index) || gold.includes(index) || premium.includes(index) || bookedSeats.includes(index)) return
-		if (index <= 23) {
-			setSilver([...silver, index])
-		}
-		else if (index > 23 && index <= 47) {
-			setGold([...gold, index])
-		}
-		else if (index > 47 && index <= 59) {
-			setPemium([...premium, index])
-		}
+		console.log("index-",index)
+		console.log("silver - ",silver)
+		console.log("gold - ",gold)
+		console.log("premium - ",premium)
+			// if (silver.includes(index) || gold.includes(index) || premium.includes(index) || bookedSeats.includes(index)) return
+			if(selected.includes(index)){
+				console.log(index)
+				console.log(selected.filter((item)=>console.log(item)))
+				setSelected(selected.filter((item)=>item!==index))
+				if (index <= 23) {
+					setSilver(silver.filter((item)=>item!==index))
+				}
+				else if (index > 23 && index <= 47) {
+					setGold(gold.filter((item)=>item!==index))
+				}
+				else if (index > 47 && index <= 59) {
+					setPemium(premium.filter((item)=>item!==index))
+				}
+				return
+			}
+			if (index <= 23) {
+				setSilver([...silver, index])
+			}
+			else if (index > 23 && index <= 47) {
+				setGold([...gold, index])
+			}
+			else if (index > 47 && index <= 59) {
+				setPemium([...premium, index])
+			}
+		
 
 		const newArr = [...arr]
 		newArr[index] = true
 		setArr(newArr)
-		console.log(newArr)
+		// console.log(newArr)
 		setSelected([...selected, index])
 	}
-
+	
 	const handleSeatSelection = () => {
-		console.log("inside")
 		disp(seats({ selectedSeats: selected, total: total, theaterName: theaterNameLocal, time: hr }))
 		const copiedData = { ...historyInfo, email: email, movieName: movieName, theaterName: theaterName, date: time.toLocaleDateString(), time: hr, seats: selected, total: total }
-		console.log("copied data - ",copiedData)
 		setInfo(copiedData)
 		mutation.mutate(copiedData)
 	}
@@ -105,9 +123,9 @@ function SeatBooking() {
 								const isBooked = bookedSeats.includes(index);
 								const isSelected = selected.includes(index);
 								return (
-									<button key={index}	disabled={isBooked} onClick={() => selectedSeat(index)}
-										className={`aspect-square w-full rounded-lg text-sm border ${isBooked ? "bg-gray-400 border-gray-700 text-white cursor-not-allowed" : isSelected ? "bg-blue-400 border-blue-700 text-white" : "bg-green-400 border-green-700 text-white hover:bg-green-600"}`}>
-										{index + 1}
+									<button key={index}	disabled={isBooked} onClick={() => selectedSeat(index)} 
+										className={`aspect-square w-full rounded-lg text-sm border ${isBooked ? "bg-gray-400 border-gray-700 text-white cursor-not-allowed" : isSelected ? "bg-blue-400 border-blue-700 text-white " : "bg-green-400 border-green-700 text-white hover:bg-green-600"}`}>
+										
 									</button>
 								);
 							})}
@@ -152,8 +170,9 @@ function SeatBooking() {
 					</div>
 				</div>
 			</div>
+			<button onClick={() => { handleSeatSelection(); setModalOpen(true) }} disabled={selected.length===0} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
 
-			<button onClick={() => { handleSeatSelection(); setModalOpen(true) }} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
+			{/* <button onClick={() => { handleSeatSelection(); setModalOpen(true) }} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button> */}
 			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} selectedSeats={selected} total={total}/>
 			{/* <PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} />  // {Array.isArray(item.seats.selectedSeats) ? item.seats.selectedSeats.join(', ') : JSON.stringify(item.seats)} */}
 		</div>

@@ -70,6 +70,7 @@ const TicketBookedHistory = () => {
                                         <h2 className="text-2xl font-bold text-white mb-5">
                                             🎬 {item.movieName}
                                         </h2>
+                                        {/* <p className="text-white mb-1">{item.theaterName}</p> */}
 
                                         <div className="grid grid-cols-3 gap-4 text-center">
                                             <div className="bg-zinc-800 rounded-xl p-4">
@@ -82,16 +83,17 @@ const TicketBookedHistory = () => {
                                             <div className="bg-zinc-800 rounded-xl p-4">
                                                 <p className="text-sm text-gray-400">Time</p>
                                                 <p className="text-white font-semibold mt-1">
-                                                    {item.time}
+                                                    {item.time}:00
                                                 </p>
                                             </div>
 
                                             <div className="bg-zinc-800 rounded-xl p-4">
                                                 <p className="text-sm text-gray-400">Seats</p>
                                                 <p className="text-white font-semibold mt-1">
-                                                    {Array.isArray(item.seats.selectedSeats)
+                                                    {item.seats.join(" ")}
+                                                    {/* {Array.isArray(item.seats.selectedSeats)
                                                         ? item.seats.selectedSeats.join(', ')
-                                                        : JSON.stringify(item.seats)}
+                                                        : JSON.stringify(item.seats)} */}
                                                 </p>
                                             </div>
                                         </div>
