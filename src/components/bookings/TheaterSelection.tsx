@@ -12,24 +12,15 @@ function TheaterSelection(){
     const[theater, setTheater] = useState([{name:"PVR Cinema", location:"City mall"}, {name:"Inox Cinema", location:"City mall"}, {name:"abc Cinema", location:"City mall"}, {name:"pvr Cinema", location:"City mall"}])
     const{name} = useAppSelector((state)=>state.moviename)
     const time = new Date(Date.now())
-    // const [hour,sethour] = useState(time.getHours())
-    // const [min, setMin] = useState(time.getMinutes())
     const hour:number = 10
     const min:number = 0
     console.log(time.toLocaleTimeString().slice(0,2))
     const hourNow = time.toLocaleTimeString().slice(0,2)
     console.log(typeof hour)
     console.log(typeof hourNow)
-    // console.log(hour)
-
     const navigate = useNavigate()
     const disp = useAppDispatch()
-    
     const email = localStorage.getItem("email")
-    // if(hour>24){
-    //     sethour(prev=>prev-24)
-    // }
-
     const handleclick=(hour:number,min:number, theater:string, index:number)=>{
         if(hour<hourNow) return
         disp(movietime({hr:hour, min:min, date:time.getDate(), month:time.getMonth(), theaterName:theater}))

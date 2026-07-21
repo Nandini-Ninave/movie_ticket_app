@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-// {Array.isArray(item.seats) ? item.seats.map((seat) => seat + 1).join(", ") : item.seats}
 import { useAppSelector } from "../reduxToolkit/hook"
 import { BOOKING_TITLE } from "../../constant"
 import { seats } from "../reduxToolkit/movieSlice"
@@ -54,7 +53,6 @@ function SeatBooking() {
 			totalSeats: arr,
 			bookedSeats: selected
 		})
-		// disp(seats({ selectedSeats: selected}))
 	}, [selected])
 	console.log(booked)
 		
@@ -157,7 +155,7 @@ function SeatBooking() {
 
 			<button onClick={() => { handleSeatSelection(); setModalOpen(true) }} className="mt-6 w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-center">submit</button>
 			<PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} selectedSeats={selected} total={total}/>
-			{/* <PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} /> */}
+			{/* <PopUpModel isOpen={isModalOpen} onClose={() => setModalOpen(false)} />  // {Array.isArray(item.seats.selectedSeats) ? item.seats.selectedSeats.join(', ') : JSON.stringify(item.seats)} */}
 		</div>
 	)
 }
