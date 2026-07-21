@@ -7,7 +7,6 @@ import { store } from './components/reduxToolkit/store.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* <App /> */}
     <Provider store={store}>
       <App />
     </Provider>
