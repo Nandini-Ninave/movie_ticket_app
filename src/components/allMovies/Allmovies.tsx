@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../reduxToolkit/hook";
-import { moviename } from "../reduxToolkit/movieSlice";
-import Navbar from "../../reusableComponents/Navbar";
-import { get_all_movies } from "../url";
+import { useAppDispatch } from "@reduxToolkit/hook";
+import { moviename } from "@reduxToolkit/movieSlice";
+import Navbar from "@reusableComponents/Navbar";
+import { get_all_movies } from "@url";
+
 
 function Allmovies() {
   const [movies, setMovies] = useState([]);
@@ -19,7 +20,7 @@ function Allmovies() {
     setMovies(data);
     return data;
   };
-  const { data } = useQuery({
+  useQuery({
     queryKey: ["movies"],
     queryFn: apicall,
   });

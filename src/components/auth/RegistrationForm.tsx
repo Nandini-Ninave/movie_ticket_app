@@ -1,20 +1,29 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { yupValidation } from "../formValidation/yupValidation";
+import { yupValidation } from "@components/formValidation/yupValidation";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { SIGN_UP_TITLE } from "../../constant";
-import { reg_url } from "../url";
+import { SIGN_UP_TITLE } from "@constant";
+import { reg_url } from "@url";
+
+interface Registration{
+  fullname:string,
+  email:string,
+  password:string,
+  id:string,
+  confirmPassword:string
+}
+
 
 function RegistrationForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [, setName] = useState("");
+  const [, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setCnfPwd] = useState("");
-  const [data, setData] = useState("");
-  const [info, setInfo] = useState([]);
+  const [, setData] = useState("");
+  const [info, setInfo] = useState<Registration[]>([]);
   const navigate = useNavigate();
   const {
     register,
@@ -27,7 +36,7 @@ function RegistrationForm() {
     setInfo(data);
     return data;
   };
-  const { data: person } = useQuery({
+  useQuery({
     queryKey: ["person"],
     queryFn: apicall,
   });

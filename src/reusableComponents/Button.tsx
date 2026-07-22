@@ -1,5 +1,12 @@
-function Button(props:{label:string}){
-    return(<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+type props = {
+	label: string,
+	handleClick: any
+}
+
+function Button(props:props){
+    return(<button className="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" 
+                  onClick={props.handleClick}
+    >
   {props.label}
 </button>
 )

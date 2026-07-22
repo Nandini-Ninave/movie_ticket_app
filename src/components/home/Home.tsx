@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import Navbar from "../../reusableComponents/Navbar";
-import { get_all_movies } from "../url";
+import { get_all_movies } from "@url";
+import Navbar from "@reusableComponents/Navbar";
+import Button from "@reusableComponents/Button";
 
-interface movie {
+interface movie { 
   createdAt: string;
   name: string;
   avatar: string;
@@ -29,7 +30,7 @@ function Home() {
     return data;
   };
 
-  const { data } = useQuery({
+  useQuery({
     queryKey: ["movies"],
     queryFn: apicall,
   });
@@ -73,6 +74,7 @@ function Home() {
           >
             View All →
           </button>
+          {/* <Button label="View All →" handleClick={fun}></Button> */}
         </div>
       </div>
     </div>

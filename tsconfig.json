@@ -2,6 +2,20 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    { "path": "./tsconfig.node.json" },
+  ],
+  
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler", 
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@url": ["./src/components/url"],
+      "@reduxToolkit/*": ["./src/components/reduxToolkit/*"],
+      "@reusableComponents/*": ["./src/reusableComponents/*"],
+      "@constant": ["./src/constant"],
+    }
+  }
+
+  
 }

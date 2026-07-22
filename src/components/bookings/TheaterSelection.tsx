@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../reduxToolkit/hook";
-import { movietime } from "../reduxToolkit/movieSlice";
-import Navbar from "../../reusableComponents/Navbar";
+import { useAppDispatch, useAppSelector } from "@reduxToolkit/hook";
+import { movietime } from "@reduxToolkit/movieSlice";
+import Navbar from "@reusableComponents/Navbar";
 import axios from "axios";
-import { get_theater } from "../url";
+import { get_theater } from "@url";
 import { useQuery } from "@tanstack/react-query";
-import Addtheater from "./Addtheater";
+import Addtheater from "@components/bookings/Addtheater";
 
 interface Theater {
   theaterName: string;
@@ -15,22 +15,22 @@ interface Theater {
 
 function TheaterSelection() {
   const [isOpen, seatIsOpen] = useState(false);
-  const [theater, setTheater] = useState([
+  const theater = [
     { theaterName: "PVR Cinema", location: "City mall" },
     { theaterName: "Inox Cinema", location: "City mall" },
     { theaterName: "abc Cinema", location: "City mall" },
     { theaterName: "pvr Cinema", location: "City mall" },
-  ]);
+  ];
   const { name, min } = useAppSelector((state) => state.moviename);
   const time = new Date(Date.now());
   const hourNow = time.toLocaleTimeString().slice(0,2)
   const navigate = useNavigate();
   const disp = useAppDispatch();
-  const [buttons, setButtons] = useState([
+  const buttons = [
     Number(hourNow) + 1,
     Number(hourNow) + 4,
     Number(hourNow) + 7,
-  ]);
+  ];
 
   const handleclick = (
     hour: number,

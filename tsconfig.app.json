@@ -20,7 +20,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@constant": ["./src/constant"],
+      "@reusableComponents/*": ["./src/reusableComponents/*"],
+      "@url": ["./src/components/url"],
+      "@reduxToolkit/*": ["./src/components/reduxToolkit/*"],
+    }
   },
   "include": ["src"]
 }

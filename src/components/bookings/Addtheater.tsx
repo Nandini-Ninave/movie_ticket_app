@@ -1,7 +1,8 @@
 import axios from "axios";
-import { get_theater, set_theater } from "../url";
+import { get_theater, set_theater } from "@url";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import Button from "@reusableComponents/Button";
 
 interface PopUpModelProps {
   isOpen: boolean;
@@ -124,6 +125,7 @@ const Addtheater = ({ isOpen, onClose }: PopUpModelProps) => {
                   >
                     Add
                   </button>
+                  {/* <Button label="Add"  */}
                 </form>
               </div>
             </div>

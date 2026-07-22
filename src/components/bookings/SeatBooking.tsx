@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../reduxToolkit/hook";
-import { BOOKING_TITLE } from "../../constant";
-import { seats } from "../reduxToolkit/movieSlice";
-import PopUpModel from "../../reusableComponents/PopUpModel";
+import { useAppSelector } from "@reduxToolkit/hook";
+import { BOOKING_TITLE } from "@constant";
+import { seats } from "@reduxToolkit/movieSlice";
+import PopUpModel from "@reusableComponents/PopUpModel";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { set_history } from "../url";
-import Navbar from "../../reusableComponents/Navbar";
+import { set_history } from "@url";
+import Navbar from "@reusableComponents/Navbar";
 import { useDispatch } from "react-redux";
 
 interface Historyinfo {
@@ -20,15 +20,8 @@ interface Historyinfo {
   theaterName: string;
 }
 
-interface Booked {
-  bookedtheaterName: string;
-  time: number;
-  totalSeats: [];
-  bookedSeats: number[];
-}
-
 function SeatBooking() {
-  const [booked, setBooked] = useState<Booked[]>([]);
+  const [booked, setBooked] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [arr, setArr] = useState(Array(60).fill(false));
   const [silver, setSilver] = useState<number[]>([]);
@@ -42,7 +35,7 @@ function SeatBooking() {
   const disp = useDispatch();
   const time = new Date(Date.now());
   const theaterNameLocal = localStorage.getItem("theaterName");
-  const { selectedSeats } = useAppSelector((state) => state.seats);
+  // const { selectedSeats } = useAppSelector((state) => state.seats);
   const { hr, min, theaterName } = useAppSelector((state) => state.movietime);
   const bookedTheater = useAppSelector((state) => state.seats.booked);
   const bookedSeats =
@@ -56,10 +49,9 @@ function SeatBooking() {
       bookedtheaterName: theaterNameLocal,
       time: localStorage.getItem("hour"),
       totalSeats: arr,
-      bookedSeats: selected,
+      bookedSeats: selected
     });
   }, [selected]);
-
   const mutation = useMutation({
     mutationFn: async (newdata: Historyinfo[]) => {
       const response = await axios.post(set_history, newdata);
@@ -132,7 +124,7 @@ function SeatBooking() {
             screen
           </p>
           <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 sm:gap-3 mb-10 max-w-3xl mx-auto justify-items-center">
-            {Array.from({ length: 60 }).map((seat, index) => {
+            {Array.from({ length: 60 }).map((_, index) => {
               const isBooked = bookedSeats.includes(index);
               const isSelected = selected.includes(index);
               return (

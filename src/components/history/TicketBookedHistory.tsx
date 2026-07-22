@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../reusableComponents/Navbar";
+import Navbar from "@reusableComponents/Navbar";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { get_history } from "../url";
+import { get_history } from "@url";
 
 interface BookingHistory {
   id: string;
@@ -12,11 +12,7 @@ interface BookingHistory {
   theaterName: string;
   date: string;
   time: number;
-  seats: {
-    selectedSeats: number[];
-    total: number;
-    theaterName: string;
-  };
+  seats: []
   total: number;
   email: string;
 }
@@ -40,7 +36,7 @@ const TicketBookedHistory = () => {
     setHistory(parsedData);
     return parsedData;
   };
-  const { data } = useQuery({
+  useQuery({
     queryKey: ["history"],
     queryFn: apicall,
   });

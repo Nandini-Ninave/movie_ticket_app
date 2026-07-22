@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../reduxToolkit/movieSlice";
-import Input from "../../reusableComponents/Input";
-import { reg_url } from "../url";
-import { useAppDispatch } from "../reduxToolkit/hook";
+import { login } from "@reduxToolkit/movieSlice";
+import Input from "@reusableComponents/Input";
+import { reg_url } from "@url";
+import { useAppDispatch } from "@reduxToolkit/hook";
+import Button from "@reusableComponents/Button";
 
 interface registration {
   fullname: string;
@@ -26,7 +27,7 @@ function Login() {
     setData(data);
     return data;
   };
-  const { data: registration } = useQuery({
+  useQuery({
     queryKey: ["person"],
     queryFn: apicall,
   });
@@ -99,12 +100,13 @@ function Login() {
                   Forgot password?
                 </a>
               </div>
-              <button
+              <Button label="login" handleClick={() => submit(email, password)}></Button>
+              {/* <button
                 className="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 onClick={() => submit(email, password)}
               >
                 login
-              </button>
+              </button> */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?
                 <a

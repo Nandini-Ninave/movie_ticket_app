@@ -39,10 +39,10 @@ export const AuthUserSlice = createSlice({
         login:(state, action)=>{   
             state.isAuthenticated = true
             state.user = action.payload.user
-            localStorage.setItem("isAuthenticated", state.isAuthenticated)
+            localStorage.setItem("isAuthenticated", String(state.isAuthenticated))
             localStorage.setItem("email", action.payload.user)
         },
-        logout:(state,action)=>{
+        logout:(state)=>{
             state.isAuthenticated = false
             state.user = null
             localStorage.removeItem("isAuthenticated")
